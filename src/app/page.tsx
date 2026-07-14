@@ -36,12 +36,12 @@ const DASH_CARDS = [
 ];
 
 // ─── Parallax blobs (background) ────────────────────────────────
-const ParallaxBlob = ({ className, delay = 0 }: { className: string; delay?: number }) => {
+const ParallaxBlob = ({ className, delay = 0, style }: { className: string; delay?: number; style?: React.CSSProperties }) => {
   const ref = useRef(null);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 600], [0, delay * 40]);
   return (
-    <motion.div ref={ref} style={{ y }} className={cn('absolute rounded-full blur-[120px] -z-10 pointer-events-none', className)} />
+    <motion.div ref={ref} style={{ y, ...style }} className={cn('absolute rounded-full blur-[120px] -z-10 pointer-events-none', className)} />
   );
 };
 
