@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* Tailwind v4: class-based dark mode */
+@custom-variant dark (&:is(.dark *));
+
+/* ── Global token reset ───────────────────────────── */
+:root {
+  --bg: #EAEBEE;
+  --surface: #F3F4F7;
+  --accent: #4F46E5;
+  --text: #1E293B;
+}
+.dark {
+  --bg: #18181B;
+  --surface: #27272A;
+  --accent: #818CF8;
+  --text: #FAFAFA;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-nunito), 'Nunito', 'Arial', Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply transition-colors duration-300 overflow-x-hidden;
+  cursor: none;
+}
+
+/* Restore cursor on touch devices */
+@media (pointer: coarse) {
+  body { cursor: auto; }
+}
+
+/* ── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #C7CBD6;
+  border-radius: 999px;
+}
+.dark ::-webkit-scrollbar-thumb { background: #3F3F46; }
+::-webkit-scrollbar-thumb:hover { background: #A0A9C0; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #52525B; }
+
+/* ── Marquee utility ─────────────────────────────────── */
+.pause-animation { animation-play-state: paused; }
+
+/* ── Clay selection highlight ────────────────────────── */
+::selection {
+  background: rgba(79, 70, 229, 0.18);
+  color: var(--text);
+}

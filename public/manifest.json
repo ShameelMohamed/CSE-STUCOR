@@ -1,0 +1,22 @@
+{
+  "name": "SARA CSE - STUCOR",
+  "short_name": "CSE STUCOR",
+  "description": "Digital Heart of CSE Department",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#E9EBF3",
+  "background_color": "#E9EBF3",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

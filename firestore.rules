@@ -1,0 +1,84 @@
+// firestore.rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function getUserRole(role) {
+      return isSignedIn() && (
+        (request.auth.token.email == 'shameelmohamed2005@gmail.com') ||
+        (exists(/databases/$(database)/documents/userRoles/$(request.auth.token.email)) &&
+         (get(/databases/$(database)/documents/userRoles/$(request.auth.token.email)).data.role == role || 
+          get(/databases/$(database)/documents/userRoles/$(request.auth.token.email)).data.role == 'superadmin'))
+      );
+    }
+    
+    function isOnlyUpdatingLikes() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes']);
+    }
+    
+    // Allow users to read/write their own profile and superadmin to write any profile
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow write: if request.auth.uid == userId || getUserRole('superadmin'); 
+    }
+
+    match /userRoles/{email} {
+      allow read: if isSignedIn();
+      allow write: if getUserRole('superadmin');
+    }
+
+    // HOD Collection (Page 1)
+    match /hod_posts/{postId} {
+      allow read: if isSignedIn();
+      allow create, delete: if getUserRole('hod');
+      allow update: if isOnlyUpdatingLikes() || getUserRole('hod');
+    }
+
+    // Students Corner (Page 2 - Achievements)
+    match /achievements/{id} {
+      allow read: if isSignedIn();
+      allow create, delete: if getUserRole('admin') || getUserRole('stucor');
+      allow update: if isOnlyUpdatingLikes() || getUserRole('admin') || getUserRole('stucor');
+    }
+
+    // Coding Collection (Page 3)
+    match /coding/{id} {
+      allow read: if isSignedIn();
+      allow create, delete: if getUserRole('coding');
+      allow update: if isOnlyUpdatingLikes() || getUserRole('coding');
+    }
+
+    // News Collection (Page 4)
+    match /news/{postId} {
+      allow read: if isSignedIn();
+      allow create, delete: if getUserRole('admin');
+      allow update: if isOnlyUpdatingLikes() || getUserRole('admin');
+    }
+
+    // Alumni Collection (Page 5)
+    match /alumni/{alumniId} {
+      allow read: if isSignedIn();
+      allow create, delete: if getUserRole('admin');
+      allow update: if isOnlyUpdatingLikes() || getUserRole('admin');
+    }
+
+    // Events Collection (Page 6)
+    match /events/{eventId} {
+      allow read: if isSignedIn();
+      allow create, delete: if getUserRole('admin') || getUserRole('event');
+      allow update: if isOnlyUpdatingLikes() || getUserRole('admin') || getUserRole('event');
+    }
+
+    // Static Resources (Page 7) - Managed by Dev, no UI edit flow.
+
+    // Default: Deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
