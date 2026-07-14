@@ -177,7 +177,7 @@ export default function AlumniPage() {
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   drag={isTop ? 'x' : false}
                   dragConstraints={{ left: 0, right: 0 }}
-                  onDragEnd={(e, { offset, velocity }) => {
+                  onDragEnd={(e: any, { offset, velocity }: any) => {
                     if (Math.abs(offset.x) > 100 || Math.abs(velocity.x) > 500) {
                       moveToEnd();
                     }
