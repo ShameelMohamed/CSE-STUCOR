@@ -104,14 +104,14 @@ export default function WeeklyCodingPage() {
       </ClayCard>
 
       <ClayCard className="p-0 overflow-hidden">
-        <div className="bg-gray-50 dark:bg-gray-800/50 p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
-          <div className="flex items-center gap-3">
-            <Trophy className="w-8 h-8 text-yellow-500" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Leaderboard</h2>
+        <div className="bg-gray-50 dark:bg-gray-800/50 p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-gray-200 dark:border-gray-800">
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
+            <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500 flex-shrink-0" />
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">Leaderboard</h2>
           </div>
           {isCodingAdmin && (
-            <BendyButton onClick={handleSave} disabled={saving} className="bg-green-600 hover:bg-green-700 flex items-center gap-2">
-              <Save className="w-4 h-4" /> {saving ? 'Saving...' : 'Save All Changes'}
+            <BendyButton onClick={handleSave} disabled={saving} className="w-full sm:w-auto bg-green-600 hover:bg-green-700 flex items-center justify-center gap-2">
+              <Save className="w-4 h-4 flex-shrink-0" /> {saving ? 'Saving...' : 'Save All Changes'}
             </BendyButton>
           )}
         </div>
